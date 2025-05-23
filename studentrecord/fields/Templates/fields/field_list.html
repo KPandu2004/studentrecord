@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Records</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #583131;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        h2 {
+            color: #004085;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        a {
+            color: #a100ff;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background: #ffffff;
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="number"] {
+            padding: 8px;
+            margin-right: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 12px;
+            background-color: #856f00;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: rgb(255, 204, 0);
+        }
+    </style>
+</head>
+<body>
+    <h2>Student Records</h2>
+
+    <!-- Filter Form -->
+    <form method="get">
+        <input type="text" name="name" placeholder="Name" value="{{ request.GET.name }}">
+        <input type="number" name="age" placeholder="Age" value="{{ request.GET.age }}">
+        <input type="text" name="classname" placeholder="Classname" value="{{ request.GET.classname }}">
+        <input type="number" name="marks" placeholder="Marks" value="{{ request.GET.marks }}">
+        <button type="submit">Filter</button>
+    </form>
+
+    <a href="{% url 'fields:field_create' %}">Create New Record</a>
+
+    <ul>
+        {% for field in fields %}
+            <li>
+                <strong>{{ field.name }}</strong> |
+                Age: {{ field.age }} |
+                Class: {{ field.classname }} |
+                Marks: {{ field.marks }}
+                [<a href="{% url 'fields:field_update' field.id %}">Edit</a>]
+                [<a href="{% url 'fields:field_delete' field.id %}">Delete</a>]
+            </li>
+        {% empty %}
+            <li>No records found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
